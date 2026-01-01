@@ -1,55 +1,98 @@
-tasks = [] # 'Task1', 'Task2'
+import json
+import os
 
-def showControls() -> None:
-    print("A -> Add a task to the list.")
-    print("R -> Remove a valid task from the list.")
-    print("V -> View the list.")
-    print("C -> View the controls.")
-    print("Q -> Quit.\n")
+FILE_NAME = "tasks.json"
+tasks: list[str] = []
 
-def add(task: str) -> None:
-    if task not in tasks:
-        tasks.append(task)
-        print(f"Added: {task} to the list!\n")
+def load_tasks() -> None:
+    global tasks
+    if os.path.exists(FILE_NAME):
+        with open(FILE_NAME, "r", encoding="utf-8") as f:
+            tasks = json.load(f)
     else:
-        print("Task is already in the list!\n")
+        tasks = []
 
-def remove(task: str) -> None:
+def save_tasks() -> None:
+    with open(FILE_NAME, "w", encoding="utf-8") as f:
+        json.dump(tasks, f, indent=4)
+
+def show_controls() -> None:
+    print("A -> Add a task")
+    print("R -> Remove a task")
+    print("V -> View tasks")
+    print("C -> View controls")
+    print("Q -> Quit\n")
+
+# Actions
+def add_task() -> None:
+    task = input("Task name: ").strip()
+
+    if not task:
+        print("Task name cannot be empty!\n")
+        return
+
+    task = task.capitalize()
+
     if task in tasks:
-        tasks.remove(task)
-        print(f"Removed: {task} from the list!")
-    else:
-        print("Specified task was not found.")
+        print("Task already exists!\n")
+        return
 
-def view() -> None:
-    print(f"Viewing current tasks ({len(tasks)}) \n")
-    print(str(tasks))
+    tasks.append(task)
+    save_tasks()
+    print(f"Added: {task}\n")
 
-def getInput(message: str, whole: bool) -> str:
-    inp = input(message)
+def remove_task() -> None:
+    if not tasks:
+        print("Task list is empty.\n")
+        return
 
-    if whole: return inp
-    else: return inp[0]
+    view_tasks()
+    try:
+        index = int(input("Task number to remove: "))
+        removed = tasks.pop(index - 1)
+        save_tasks()
+        print(f"Removed: {removed}\n")
+    except (ValueError, IndexError):
+        print("Invalid task number.\n")
 
-commandMap = {
-    "A": "add(getInput('Name?: ', True).capitalize())",
-    "R": "remove(getInput('Name?: ', True).capitalize())",
-    "V": "view()",
-    "C": "tutorial()",
-    "Q": "quit()"
+def view_tasks() -> None:
+    if not tasks:
+        print("No tasks found.\n")
+        return
+
+    print(f"Tasks ({len(tasks)}):")
+    for i, task in enumerate(tasks, start=1):
+        print(f"{i}. {task}")
+    print()
+
+# Command Map
+COMMANDS = {
+    "A": add_task,
+    "R": remove_task,
+    "V": view_tasks,
+    "C": show_controls
 }
 
 def main() -> None:
-    print("********** Todo list **********\n")
-    showControls()
+    print("********** Todo List **********\n")
+    load_tasks()
+    show_controls()
 
     while True:
-        inp = getInput("Please enter your choice: ", False).strip().upper()
-        print()
-        if commandMap[inp]:
-            eval(commandMap[inp])
+        cmd = input("Choice: ").strip().upper()
+
+        if not cmd:
+            print("Please enter a command.\n")
+            continue
+
+        if cmd == "Q":
+            break
+
+        action = COMMANDS.get(cmd)
+        if action:
+            action()
         else:
-            print("Command not found, please try again.")
-        
+            print("Unknown command.\n")
+
 if __name__ == "__main__":
     main()
