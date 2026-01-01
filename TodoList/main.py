@@ -41,6 +41,7 @@ def add_task() -> None:
     save_tasks()
     print(f"Added: {task}\n")
 
+
 def remove_task() -> None:
     if not tasks:
         print("Task list is empty.\n")
@@ -64,6 +65,7 @@ def view_tasks() -> None:
     for i, task in enumerate(tasks, start=1):
         print(f"{i}. {task}")
     print()
+
 
 # Command Map
 COMMANDS = {
@@ -93,6 +95,7 @@ def main() -> None:
             action()
         else:
             print("Unknown command.\n")
+
 
 if __name__ == "__main__":
     main()
