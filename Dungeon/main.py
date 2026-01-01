@@ -36,7 +36,7 @@ class Creature:
         dmg = randint(5, 20)
         dmg = randomize(dmg, 5)
         print(f"[HIT] {self.name} dealt {dmg} damage to {player.name}. "
-              f"{player.name} has {max(0, player.health - dmg)} hp left.")
+              f"{player.name} has {max(0, player.health - dmg)} hp left. ({self.health} -> {self.health - dmg})")
         player.handle_attack(dmg)
 
     def handle_attack(self, dmg):
@@ -110,7 +110,7 @@ class Player:
 
         dmg = randomize(base, base // 5)
         print(f"{self.name} dealt {dmg} damage to {creature.name}. "
-              f"It has {max(0, creature.health - dmg)} hp left.")
+              f"It has {max(0, creature.health - dmg)} hp left. ({creature.health} -> {creature.health - dmg})")
 
         if creature.handle_attack(dmg):
             print(f"{self.name} killed {creature.name}!")
