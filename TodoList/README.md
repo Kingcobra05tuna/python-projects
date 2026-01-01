@@ -1,16 +1,17 @@
 # Todo List (CLI)
 
-A simple command-line based **Todo List application** written in Python.  
-Add, remove, and view tasks using keyboard commands.
+A clean and production-safe **command-line Todo List application** written in Python.  
+Tasks are stored persistently using a JSON file and managed through simple keyboard commands.
 
 ## Features
 
-- Add new tasks to the list
-- Remove existing tasks
-- View all current tasks
-- Duplicate task prevention
-- Case-insensitive command system
-- Simple and minimal CLI interface
+- Add new tasks
+- Remove tasks by number
+- View tasks in a clean, numbered format
+- Persistent storage using `tasks.json`
+- Input validation for empty and invalid entries
+- Safe command handling (no `eval`)
+- Minimal and beginner-friendly codebase
 
 ## Controls
 
@@ -20,66 +21,52 @@ Add, remove, and view tasks using keyboard commands.
 | **R** | Remove a task |
 | **V** | View all tasks |
 | **C** | Show controls |
-| **Q** | Quit the program |
+| **Q** | Quit the application |
 
 ## How It Works
 
-1. Program starts and displays available controls  
-2. User enters a single-letter command  
-3. Based on the command:
-   - Task is added
-   - Task is removed
-   - Task list is displayed
-4. Program runs in a loop until **Q** is pressed
+1. Program loads tasks from `tasks.json` on startup  
+2. User enters a command using a single letter  
+3. The corresponding action is executed safely  
+4. Any change to tasks is immediately saved  
+5. Program runs until the user quits
 
 
-## Code Structure
+## Code Overview
 
-- `tasks`  
-  Stores all tasks as a list of strings.
+- **Persistent Storage**
+  - Tasks are saved and loaded using a JSON file
+  - Data is preserved between program runs
 
-- `add(task)`  
-  Adds a task if it does not already exist.
+- **Command System**
+  - Uses a dictionary mapping commands to functions
+  - Eliminates the use of `eval()` for safety
 
-- `remove(task)`  
-  Removes a task if it exists in the list.
+- **Input Validation**
+  - Prevents empty task names
+  - Handles invalid command input
+  - Catches incorrect task numbers
 
-- `view()`  
-  Displays all tasks and task count.
-
-- `getInput(message, whole)`  
-  Handles user input:
-  - Full string input
-  - Single-character command input
-
-- `commandMap`  
-  Maps commands to executable actions.
-
-- `main()`  
-  Entry point that runs the main loop.
+- **Task Formatting**
+  - Tasks are displayed as a numbered list
+  - Improves readability and UX
 
 ## Requirements
 
-- Python 3.x  
+- Python 3.10+
 - No external libraries required
 
-## Known Issues / Limitations
+## Known Limitations
 
-- Uses `eval()` for command execution (not recommended for production)
-- No persistent storage (tasks reset on restart)
-- No input validation for empty commands
-- Tasks are stored as a raw list (no formatting)
+- Single-user only
+- No task completion status
+- No task editing feature
 
 ## Possible Improvements
 
-- Replace `eval()` with function references
-- Add file saving/loading (JSON or TXT)
-- Numbered task display
-- Task editing feature
+- Mark tasks as completed
+- Edit existing tasks
+- Add timestamps or priorities
+- Convert to OOP (`TodoList` class)
 - GUI version (Tkinter / CustomTkinter)
-- Error handling for invalid commands
-
----
-
-**Minimal, fast, and educational.**
-Perfect for learning CLI logic and command handling.
+- Package as a pip-installable CLI tool
