@@ -10,8 +10,6 @@ Tasks are stored persistently using a JSON file and managed through simple keybo
 - View tasks in a clean, numbered format
 - Persistent storage using `tasks.json`
 - Input validation for empty and invalid entries
-- Safe command handling (no `eval`)
-- Minimal and beginner-friendly codebase
 
 ## Controls
 
@@ -30,37 +28,6 @@ Tasks are stored persistently using a JSON file and managed through simple keybo
 3. The corresponding action is executed safely  
 4. Any change to tasks is immediately saved  
 5. Program runs until the user quits
-
-
-## Code Overview
-
-- **Persistent Storage**
-  - Tasks are saved and loaded using a JSON file
-  - Data is preserved between program runs
-
-- **Command System**
-  - Uses a dictionary mapping commands to functions
-  - Eliminates the use of `eval()` for safety
-
-- **Input Validation**
-  - Prevents empty task names
-  - Handles invalid command input
-  - Catches incorrect task numbers
-
-- **Task Formatting**
-  - Tasks are displayed as a numbered list
-  - Improves readability and UX
-
-## Requirements
-
-- Python 3.10+
-- No external libraries required
-
-## Known Limitations
-
-- Single-user only
-- No task completion status
-- No task editing feature
 
 ## Possible Improvements
 
